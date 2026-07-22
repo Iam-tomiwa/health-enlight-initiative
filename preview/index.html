@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Health enLight Initiative — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand:#0b4422; --brand-700:#0e5a2e; --brand-950:#052a15;
+    --leaf:#3fa66a; --gold:#e0a72e; --cream:#f7f5ef; --ink:#12211a;
+    --muted:#5b6b62; --line:#e3e8e4;
+    --display:'Fraunces',Georgia,'Times New Roman',serif;
+    --sans:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;line-height:1.5}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:100%;max-width:1240px;margin:0 auto;padding:0 24px}
+  .display{font-family:var(--display)}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--brand)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:13px 24px;font-size:14px;font-weight:600;transition:.3s;cursor:pointer;border:0}
+  .btn-white{background:#fff;color:var(--brand)}
+  .btn-white:hover{background:#f0f0f0}
+  .btn-brand{background:var(--brand);color:#fff}
+  .btn-brand:hover{background:var(--brand-700)}
+  .btn-outline{border:1px solid rgba(255,255,255,.28);color:#fff}
+  .btn-outline:hover{background:rgba(255,255,255,.1)}
+  .arrow{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+  /* header */
+  header{position:fixed;inset:0 0 auto 0;z-index:50;height:72px;display:flex;align-items:center;transition:.3s}
+  header.solid{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);box-shadow:0 2px 8px rgba(11,68,34,.06)}
+  header .row{display:flex;align-items:center;justify-content:space-between;width:100%}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand .mark{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;background:rgba(255,255,255,.15)}
+  header.solid .brand .mark{background:var(--brand)}
+  .brand .mark svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .brand .name{font-size:15px;font-weight:600;line-height:1.15;color:#fff}
+  header.solid .brand .name{color:var(--ink)}
+  .brand .name b{color:var(--leaf);font-weight:600}
+  header.solid .brand .name b{color:var(--brand)}
+  .brand .name span{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:500}
+  header.solid .brand .name span{color:var(--muted)}
+  nav.menu{display:flex;gap:4px}
+  nav.menu a{padding:8px 16px;font-size:14px;font-weight:500;color:rgba(255,255,255,.78);border-radius:999px;transition:.2s}
+  nav.menu a:hover{color:#fff}
+  header.solid nav.menu a{color:rgba(18,33,26,.7)}
+  header.solid nav.menu a:hover{color:var(--brand)}
+  .header-cta{padding:10px 20px;border-radius:999px;font-size:14px;font-weight:600;background:#fff;color:var(--brand)}
+  header.solid .header-cta{background:var(--brand);color:#fff}
+  @media(max-width:900px){nav.menu{display:none}}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;background:var(--brand-950);color:#fff}
+  .hero .glow1,.hero .glow2{position:absolute;border-radius:999px;filter:blur(100px);pointer-events:none}
+  .hero .glow1{left:-120px;top:-80px;width:380px;height:380px;background:rgba(23,93,58,.4)}
+  .hero .glow2{right:0;top:33%;width:320px;height:320px;background:rgba(63,166,106,.16)}
+  .hero .dots{position:absolute;inset:0;opacity:.06;background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:28px 28px;pointer-events:none}
+  .hero .grid{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding:150px 0 110px}
+  @media(max-width:960px){.hero .grid{grid-template-columns:1fr;padding:120px 0 70px;gap:48px}}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);padding:6px 16px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+  h1.hero-title{font-family:var(--display);font-size:clamp(2.6rem,5vw,3.75rem);font-weight:600;line-height:1.05;letter-spacing:-.02em;margin-top:24px}
+  .hl{position:relative;color:var(--leaf);white-space:nowrap}
+  .hl svg{position:absolute;left:0;bottom:-8px;width:100%;height:12px;color:rgba(63,166,106,.6)}
+  .hero p.lead{margin-top:28px;max-width:34rem;font-size:clamp(1rem,2vw,1.125rem);color:rgba(255,255,255,.7)}
+  .hero .cta-row{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px}
+  .hero-stats{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:28rem;border-top:1px solid rgba(255,255,255,.1);padding-top:28px}
+  .hero-stats dt{font-family:var(--display);font-size:1.875rem;font-weight:600}
+  .hero-stats dd{margin-top:4px;font-size:12px;color:rgba(255,255,255,.55)}
+  .hero .curve{height:64px;background:#fff;border-radius:40px 40px 0 0;position:relative}
+
+  /* event deck */
+  .deck-wrap{width:100%;max-width:400px;margin:0 auto;position:relative}
+  .deck-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .deck-label .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);color:var(--brand);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600}
+  .ping{position:relative;width:8px;height:8px}
+  .ping i{position:absolute;inset:0;border-radius:999px;background:var(--leaf)}
+  .ping i:first-child{animation:ping 1.4s cubic-bezier(0,0,.2,1) infinite;opacity:.7}
+  @keyframes ping{75%,100%{transform:scale(2.2);opacity:0}}
+  .deck-count{font-size:12px;font-weight:500;color:rgba(255,255,255,.8)}
+  .deck{position:relative;height:430px}
+  .ghost{position:absolute;height:100%;border-radius:24px;background:rgba(255,255,255,.25)}
+  .ghost.g1{inset:16px 16px auto 16px}
+  .ghost.g2{inset:8px 8px auto 8px;background:rgba(255,255,255,.5)}
+  .card{position:absolute;inset:0;background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 24px 60px -20px rgba(5,20,10,.55);opacity:0;transform:translateY(28px) scale(.96);transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.22,1,.36,1)}
+  .card.active{opacity:1;transform:none}
+  .card .media{position:relative;height:186px;background-size:cover;background-position:center}
+  .card .media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.45),transparent 60%)}
+  .badge{position:absolute;left:16px;top:16px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;z-index:2}
+  .badge.gold{background:var(--gold);color:#052a15}
+  .badge.leaf{background:var(--leaf);color:#fff}
+  .tagpill{position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,.9);color:var(--brand);padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;z-index:2}
+  .card .body{padding:20px;height:244px;display:flex;flex-direction:column}
+  .card h3{font-family:var(--display);font-size:1.25rem;font-weight:600;line-height:1.3;color:var(--ink)}
+  .card .blurb{margin-top:8px;font-size:14px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .meta{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px 8px;font-size:12px;color:rgba(18,33,26,.8)}
+  .meta div{display:flex;align-items:center;gap:8px}
+  .meta .full{grid-column:1/3}
+  .meta svg{width:16px;height:16px;stroke:var(--brand);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .reserve{margin-top:auto;display:flex;align-items:center;justify-content:space-between;background:#eef4f0;color:var(--brand);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;transition:.25s}
+  .reserve:hover{background:var(--brand);color:#fff}
+  .deck-dots{margin-top:20px;display:flex;justify-content:center;gap:8px}
+  .deck-dots button{height:8px;width:8px;border:0;border-radius:999px;background:rgba(255,255,255,.45);cursor:pointer;transition:.3s;padding:0}
+  .deck-dots button.on{width:28px;background:#fff}
+
+  /* sections */
+  section.pad{padding:96px 0}
+  @media(max-width:700px){section.pad{padding:64px 0}}
+  .mission{padding:8px 0 0}
+  .mission p{max-width:56rem;margin:0 auto;text-align:center;font-family:var(--display);font-size:clamp(1.5rem,3.5vw,2rem);font-weight:500;line-height:1.3}
+  .mission b{color:var(--brand);font-weight:500}
+  .sec-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between}
+  h2.sec{font-family:var(--display);font-size:clamp(1.75rem,3.5vw,2.25rem);font-weight:600;line-height:1.15;margin-top:12px;max-width:36rem}
+  .link{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--brand)}
+  .prog{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.prog{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.prog{grid-template-columns:1fr}}
+  .pcard{border:1px solid var(--line);border-radius:24px;padding:28px;background:#fff;transition:.3s;display:flex;flex-direction:column}
+  .pcard:hover{transform:translateY(-4px);box-shadow:0 12px 32px -12px rgba(11,68,34,.22);border-color:rgba(11,68,34,.2)}
+  .pcard.feat{grid-row:span 2;background:rgba(238,244,240,.6)}
+  @media(max-width:900px){.pcard.feat{grid-row:auto}}
+  .picon{width:48px;height:48px;border-radius:16px;background:var(--brand);display:grid;place-items:center}
+  .picon svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .pcard h3{font-family:var(--display);font-size:1.25rem;font-weight:600;margin-top:20px}
+  .pcard p{margin-top:8px;font-size:14px;color:var(--muted)}
+
+  .approach{background:var(--brand-950);color:#fff}
+  .approach .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px}
+  @media(max-width:900px){.approach .grid{grid-template-columns:1fr;gap:40px}}
+  .approach .eyebrow{color:var(--leaf)}
+  .acards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:560px){.acards{grid-template-columns:1fr}}
+  .acard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:28px}
+  .acard h3{font-family:var(--display);font-size:1.125rem;font-weight:600}
+  .acard p{margin-top:12px;font-size:14px;color:rgba(255,255,255,.6)}
+
+  .story{background:var(--cream)}
+  .steps{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+  @media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.steps{grid-template-columns:1fr}}
+  .step .n{display:flex;align-items:center;gap:12px}
+  .step .n b{font-family:var(--display);font-size:2.25rem;font-weight:600;color:rgba(11,68,34,.25)}
+  .step .n i{height:1px;flex:1;background:var(--line)}
+  .step h3{font-family:var(--display);font-size:1.125rem;font-weight:600;margin-top:16px}
+  .step p{margin-top:8px;font-size:14px;color:var(--muted)}
+
+  .peek{margin-top:40px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:16px}
+  @media(max-width:700px){.peek{grid-template-columns:1fr 1fr}}
+  .peek .tile{border-radius:16px;overflow:hidden;background-size:cover;background-position:center;aspect-ratio:4/3}
+  .peek .tile.big{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+  @media(max-width:700px){.peek .tile.big{grid-column:span 2;grid-row:span 2;aspect-ratio:1}}
+
+  .tst{background:var(--cream)}
+  .tcards{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  @media(max-width:900px){.tcards{grid-template-columns:1fr}}
+  .tcard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;display:flex;flex-direction:column}
+  .tcard .q{font-family:var(--display);font-size:3rem;line-height:1;color:rgba(11,68,34,.2)}
+  .tcard p{margin-top:-16px;font-size:15px;color:rgba(18,33,26,.85);flex:1}
+  .tcard .who{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);display:flex;align-items:center;gap:12px}
+  .tcard .who .av{width:40px;height:40px;border-radius:999px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:600;font-size:14px}
+  .tcard .who b{font-size:14px}.tcard .who small{display:block;color:var(--muted)}
+
+  .cta-band{padding:16px 0 96px}
+  .cta-inner{position:relative;overflow:hidden;border-radius:32px;background:var(--brand);color:#fff;text-align:center;padding:80px 32px}
+  .cta-inner .g1{position:absolute;right:-64px;top:-64px;width:256px;height:256px;border-radius:999px;background:rgba(63,166,106,.2);filter:blur(60px)}
+  .cta-inner h2{font-family:var(--display);font-size:clamp(1.75rem,4vw,2.6rem);font-weight:600;line-height:1.15}
+  .cta-inner p{margin:20px auto 0;max-width:36rem;color:rgba(255,255,255,.75)}
+  .cta-inner .row{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;position:relative}
+
+  footer{background:#041d0f;color:rgba(255,255,255,.75)}
+  footer .grid{display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:48px;padding:64px 0}
+  @media(max-width:800px){footer .grid{grid-template-columns:1fr;gap:32px}}
+  footer h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+  footer ul{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:12px;font-size:14px}
+  footer .brand .name,footer .brand .name span{color:#fff}
+  footer .mark{background:rgba(255,255,255,.1)}
+  footer .copy{border-top:1px solid rgba(255,255,255,.1);padding:24px 0;font-size:12px;color:rgba(255,255,255,.45);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .note{position:fixed;left:12px;bottom:12px;z-index:80;background:#052a15;color:#fff;font-size:11px;padding:8px 12px;border-radius:10px;opacity:.85;max-width:280px}
+</style>
+</head>
+<body>
+<div class="note">Static design preview · the real site is the Next.js app in this repo</div>
+
+<header id="hdr">
+  <div class="wrap row">
+    <a class="brand" href="#">
+      <span class="mark"><svg viewBox="0 0 32 32"><path d="M16 3.5a8 8 0 0 0-5 14.24c.9.72 1.5 1.53 1.6 2.76H19.4c.1-1.23.7-2.04 1.6-2.76A8 8 0 0 0 16 3.5Z"/><path d="M12.6 23.5h6.8M13.4 26.5h5.2"/><path d="M16 9.5v8M13 12.5l3-1 3 1"/></svg></span>
+      <span class="name">The Health <b>enLight</b><span>Initiative</span></span>
+    </a>
+    <nav class="menu">
+      <a href="#">Home</a><a href="#programs">About</a><a href="#">Our Team</a><a href="#gallery">Gallery</a><a href="#">Blog</a><a href="#">Contact</a>
+    </nav>
+    <a class="header-cta" href="#">Volunteer</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="glow1"></div><div class="glow2"></div><div class="dots"></div>
+  <div class="wrap grid">
+    <div>
+      <span class="pill">Health enlightenment · Nigeria</span>
+      <h1 class="hero-title">Changing the world begins with <span class="hl">good health<svg viewBox="0 0 200 12" fill="none"><path d="M2 9C40 3 160 3 198 9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span></h1>
+      <p class="lead">We equip young people and communities with the knowledge and tools to prevent disease and promote well-being — replacing health misinformation with clear, evidence-based truth.</p>
+      <div class="cta-row">
+        <a class="btn btn-white" href="#">Get involved <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-outline" href="#">How we work <svg class="arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt data-count="44" data-suffix="+">44+</dt><dd>School Health Ambassadors</dd></div>
+        <div><dt data-count="300" data-suffix="+">300+</dt><dd>Webinar Attendees</dd></div>
+        <div><dt data-count="250" data-suffix="">250</dt><dd>Lives Reached</dd></div>
+      </dl>
+    </div>
+
+    <div class="deck-wrap">
+      <div class="deck-label">
+        <span class="tag"><span class="ping"><i></i><i></i></span> Upcoming events</span>
+        <span class="deck-count" id="counter">1 / 4</span>
+      </div>
+      <div class="deck">
+        <div class="ghost g1"></div><div class="ghost g2"></div>
+        <div id="card" class="card active">
+          <div class="media" id="media">
+            <span class="badge" id="badge"></span>
+            <span class="tagpill" id="tagpill"></span>
+          </div>
+          <div class="body">
+            <h3 id="etitle"></h3>
+            <p class="blurb" id="eblurb"></p>
+            <div class="meta">
+              <div><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/></svg><span id="edate"></span></div>
+              <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span id="etime"></span></div>
+              <div class="full"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="eloc"></span></div>
+            </div>
+            <a class="reserve" href="#">Reserve a place <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="deck-dots" id="dots"></div>
+    </div>
+  </div>
+  <div class="curve"></div>
+</section>
+
+<section class="mission"><div class="wrap"><p>Bridging health gaps through <b>evidence-based education</b> — so wellness becomes a proactive choice, not a reactive necessity.</p></div></section>
+
+<section class="pad" id="programs"><div class="wrap">
+  <div class="sec-head">
+    <div><p class="eyebrow">What we do</p><h2 class="sec">Five ways we turn knowledge into healthier communities</h2></div>
+    <a class="link" href="#">Explore our approach <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
+  <div class="prog" id="prog"></div>
+</div></section>
+
+<section class="pad approach"><div class="wrap grid">
+  <div>
+    <p class="eyebrow">How we work</p>
+    <h2 class="sec" style="color:#fff">From data to lives — a research-first way of doing good</h2>
+    <p style="margin-top:20px;color:rgba(255,255,255,.65);max-width:28rem">We move beyond passive teaching. Every outreach is anchored in evidence and shaped by the real needs of the community it serves.</p>
+    <a class="btn btn-white" style="margin-top:32px" href="#">Read our story <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
+  <div class="acards" id="acards"></div>
+</div></section>
+
+<section class="pad story"><div class="wrap">
+  <div style="max-width:36rem"><p class="eyebrow">Our story</p><h2 class="sec">From a single spark of concern to a growing movement</h2></div>
+  <div class="steps" id="steps"></div>
+</div></section>
+
+<section class="pad" id="gallery"><div class="wrap">
+  <div class="sec-head">
+    <div><p class="eyebrow">In the field</p><h2 class="sec">Impact you can see</h2></div>
+    <a class="link" href="#">View the full gallery <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  </div>
+  <div class="peek" id="peek"></div>
+</div></section>
+
+<section class="pad tst"><div class="wrap">
+  <div style="max-width:36rem"><p class="eyebrow">Voices</p><h2 class="sec">Real stories of transformation</h2></div>
+  <div class="tcards" id="tcards"></div>
+</div></section>
+
+<section class="cta-band"><div class="wrap"><div class="cta-inner">
+  <div class="g1"></div>
+  <h2>Be part of our story today</h2>
+  <p>Whether you volunteer, partner, or simply share what you learn — every informed action creates a ripple of health literacy.</p>
+  <div class="row">
+    <a class="btn btn-white" href="#">Become a volunteer <svg class="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="btn btn-outline" href="#">Partner with us <svg class="arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+  </div>
+</div></div></section>
+
+<footer><div class="wrap">
+  <div class="grid">
+    <div>
+      <a class="brand" href="#"><span class="mark"><svg viewBox="0 0 32 32"><path d="M16 3.5a8 8 0 0 0-5 14.24c.9.72 1.5 1.53 1.6 2.76H19.4c.1-1.23.7-2.04 1.6-2.76A8 8 0 0 0 16 3.5Z"/><path d="M12.6 23.5h6.8M13.4 26.5h5.2"/></svg></span><span class="name">The Health enLight<span>Initiative</span></span></a>
+      <p style="margin-top:20px;max-width:24rem;font-size:14px;color:rgba(255,255,255,.6)">Building a healthier, more informed society — equipping young people and communities with the knowledge and tools to prevent disease and promote well-being.</p>
+    </div>
+    <div><h4>Explore</h4><ul><li><a href="#">About</a></li><li><a href="#">Our Team</a></li><li><a href="#">Gallery</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact</a></li><li><a href="#">Volunteer</a></li></ul></div>
+    <div><h4>Get in touch</h4><ul><li>Fadeke Street, Ikorodu, Lagos, Nigeria</li><li>+234 903 171 0194</li><li>thehealthenlightinitiative@gmail.com</li></ul></div>
+  </div>
+  <div class="copy"><span>© 2026 The Health enLight Initiative. All rights reserved.</span><span>Mon – Sat, 08:00 – 18:00</span></div>
+</div></footer>
+
+<script>
+  var IMG="https://www.thehealthenlightinitiative.org/gallery";
+  // gradient fallbacks so the layout reads well even before photos load
+  var grads=["linear-gradient(135deg,#0e5a2e,#052a15)","linear-gradient(135deg,#2f7350,#0b4422)","linear-gradient(135deg,#3fa66a,#0e5a2e)","linear-gradient(135deg,#175d3a,#041d0f)","linear-gradient(135deg,#4f8c6b,#0b4422)"];
+  function bg(url,i){return grads[i%grads.length]+",url('"+url+"')"}
+
+  var events=[
+    {tag:"Webinar",status:"Registration open",accent:"gold",title:"World AMR Awareness Week Live",blurb:"A cross-border panel with medical professionals on slowing antimicrobial resistance in everyday care.",date:"18 Nov 2026",time:"5:00 PM WAT",loc:"Online · Zoom",img:IMG+"/amr/amr_4.jpg"},
+    {tag:"School Club",status:"Now enrolling",accent:"leaf",title:"School Health Ambassadors Cohort",blurb:"Training a new set of student champions to lead practical health education among their peers.",date:"03 Sep 2026",time:"10:00 AM WAT",loc:"Ikorodu, Lagos",img:IMG+"/school_club/school_club_2.jpg"},
+    {tag:"Outreach",status:"Volunteers needed",accent:"leaf",title:"Community Health & Screening Day",blurb:"Free basic screenings and culturally-relevant health education delivered to an underserved community.",date:"27 Sep 2026",time:"9:00 AM WAT",loc:"Ikorodu, Lagos",img:IMG+"/school_club/school_club_7.jpg"},
+    {tag:"Webinar",status:"Save the date",accent:"gold",title:"Careers in Public Health",blurb:"An interactive session guiding young people toward rewarding, evidence-driven careers in public health.",date:"15 Oct 2026",time:"6:00 PM WAT",loc:"Online · Zoom",img:IMG+"/amr/amr_8b.jpg"}
+  ];
+  var idx=0,timer,reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var card=document.getElementById("card");
+  function render(){
+    var e=events[idx];
+    card.classList.remove("active");
+    setTimeout(function(){
+      document.getElementById("media").style.backgroundImage=bg(e.img,idx);
+      var b=document.getElementById("badge");b.textContent=e.status;b.className="badge "+e.accent;
+      document.getElementById("tagpill").textContent=e.tag;
+      document.getElementById("etitle").textContent=e.title;
+      document.getElementById("eblurb").textContent=e.blurb;
+      document.getElementById("edate").textContent=e.date;
+      document.getElementById("etime").textContent=e.time;
+      document.getElementById("eloc").textContent=e.loc;
+      document.getElementById("counter").textContent=(idx+1)+" / "+events.length;
+      [].forEach.call(document.querySelectorAll("#dots button"),function(d,i){d.className=i===idx?"on":""});
+      card.classList.add("active");
+    },reduce?0:180);
+  }
+  var dots=document.getElementById("dots");
+  events.forEach(function(e,i){var b=document.createElement("button");b.onclick=function(){idx=i;render();restart()};dots.appendChild(b)});
+  function next(){idx=(idx+1)%events.length;render()}
+  function restart(){if(reduce)return;clearInterval(timer);timer=setInterval(next,4200)}
+  render();restart();
+  var dw=document.querySelector(".deck-wrap");
+  dw.addEventListener("mouseenter",function(){clearInterval(timer)});
+  dw.addEventListener("mouseleave",restart);
+
+  // programs
+  var progs=[
+    {i:"research",t:"Research & Advocacy",b:"Improving health-seeking behaviour through evidence-based research and advocacy for policies that prioritise health equity.",feat:true},
+    {i:"school",t:"School-Based Health Clubs",b:"Training students with practical health knowledge to champion positive practices amongst their peers."},
+    {i:"outreach",t:"Community Outreaches",b:"Delivering culturally-relevant education and basic screenings directly to underserved hearts and homes."},
+    {i:"webinar",t:"Informative Webinars",b:"Connecting a global audience with qualified health professionals for clear, interactive discussions."},
+    {i:"shield",t:"Combating Misinformation",b:"Empowering the public with evidence-based knowledge to prevent disease and end health misinformation."}
+  ];
+  var pi={research:'<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4M9 11h4M11 9v4"/>',school:'<path d="M12 4 3 8.5l9 4.5 9-4.5L12 4Z"/><path d="M6.5 11v4.5c0 1.4 2.5 2.5 5.5 2.5s5.5-1.1 5.5-2.5V11M21 8.5V14"/>',outreach:'<circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16.5 6a3 3 0 0 1 0 5M18 19a5.5 5.5 0 0 0-3-4.9"/>',webinar:'<rect x="3.5" y="5" width="17" height="11" rx="2"/><path d="M8 20h8M12 16v4M10 8.5l3 2-3 2v-4Z"/>',shield:'<path d="M12 3.5 5 6v5.5c0 4.3 3 7.4 7 8.9 4-1.5 7-4.6 7-8.9V6l-7-2.5Z"/><path d="m9.5 11.5 1.8 1.8 3.2-3.4"/>'};
+  document.getElementById("prog").innerHTML=progs.map(function(p){return '<div class="pcard'+(p.feat?' feat':'')+'"><span class="picon"><svg viewBox="0 0 24 24">'+pi[p.i]+'</svg></span><h3>'+p.t+'</h3><p>'+p.b+'</p></div>'}).join("");
+
+  var appr=[
+    ["Research-first philosophy","Every health claim we share is anchored in rigorous evidence. We study local trends before launching any campaign."],
+    ["Valuing human health","Beyond instruction we provide tangible support — essential medications, first-aid supplies and health packages."],
+    ["Accessible knowledge","We strip away medical jargon, turning complex clinical data into practical steps people can act on immediately."],
+    ["Grassroots engagement","We work alongside communities, not just for them — health fairs, town-halls and door-to-door campaigns."]
+  ];
+  document.getElementById("acards").innerHTML=appr.map(function(a){return '<div class="acard"><h3>'+a[0]+'</h3><p>'+a[1]+'</p></div>'}).join("");
+
+  var steps=[["01","The Genesis","Preventable diseases were claiming lives for lack of information. We set out to bridge medical science and the people who need it."],["02","The Research Shift","Passion alone cannot cure disease — accuracy saves lives. Before we speak, we study."],["03","Scaling into Schools","We launched School-Based Health Clubs — permanent hubs that turn students into ambassadors."],["04","Early Wins","From our first club to global webinars, every life-saving habit adopted marks a milestone."]];
+  document.getElementById("steps").innerHTML=steps.map(function(s){return '<div class="step"><div class="n"><b>'+s[0]+'</b><i></i></div><h3>'+s[1]+'</h3><p>'+s[2]+'</p></div>'}).join("");
+
+  var peekImgs=[IMG+"/school_club/school_club_1.jpg",IMG+"/amr/amr_4.jpg",IMG+"/school_club/school_club_7.jpg",IMG+"/amr/amr_8.jpg",IMG+"/school_club/school_club_3.jpg"];
+  document.getElementById("peek").innerHTML=peekImgs.map(function(src,i){return '<div class="tile'+(i===0?' big':'')+'" style="background-image:'+bg(src,i)+'"></div>'}).join("");
+
+  var tst=[["This initiative boosted my confidence to educate others rather than scolding them. I am grateful for such an interactive, fun and impactful program.","Jumoke Sumaya","Ambassador"],["The school health clubs of HLI have been a very good platform to build my leadership skills. They helped me see the good part of teamwork.","Dixon Favour","Beneficiary"],["“Building a rewarding career in public health” was indeed a great webinar — I was enlightened about my area of interest.","Iyebiye","Webinar Attendee"]];
+  document.getElementById("tcards").innerHTML=tst.map(function(t){return '<div class="tcard"><div class="q">&ldquo;</div><p>'+t[0]+'</p><div class="who"><span class="av">'+t[1][0]+'</span><div><b>'+t[1]+'</b><small>'+t[2]+'</small></div></div></div>'}).join("");
+
+  // count up
+  function countUp(el){var target=+el.dataset.count,suf=el.dataset.suffix||"",s=null;function tick(t){if(!s)s=t;var p=Math.min((t-s)/1400,1);el.textContent=Math.round((1-Math.pow(1-p,3))*target)+suf;if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+  if(!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countUp(e.target);io.unobserve(e.target)}})});document.querySelectorAll("[data-count]").forEach(function(el){io.observe(el)})}
+
+  // header solid on scroll
+  var hdr=document.getElementById("hdr");
+  function onScroll(){hdr.classList.toggle("solid",window.scrollY>12)}
+  window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+</script>
+</body>
+</html>
