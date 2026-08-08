@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import { Mail, Phone, Pin, Clock } from "@/components/icons";
 import { site } from "@/lib/content";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Contact",
   description:
     "Reach out to The Health enLight Initiative for partnerships, questions or media enquiries.",
-};
+  path: "/contact",
+});
 
 const details = [
   {

@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import { ProgramIcon } from "@/components/icons";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Volunteer",
   description:
     "Become a volunteer with The Health enLight Initiative and help build healthier, better-informed communities.",
-};
+  path: "/volunteer",
+});
 
 const ways = [
   {

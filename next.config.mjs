@@ -13,6 +13,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "thehealthenlightinitiative.org",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+      },
     ],
   },
 };

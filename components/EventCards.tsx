@@ -3,19 +3,36 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { events } from "@/lib/content";
+import { events as fallbackEvents } from "@/lib/content";
+import type { SiteEvent } from "@/lib/sanity";
 import { Calendar, Clock, Pin, ArrowRight } from "./icons";
 
 const ROTATE_MS = 4200;
 
-export default function EventCards() {
+type EventCardsProps = { initialEvents?: SiteEvent[] };
+
+export default function EventCards({ initialEvents }: EventCardsProps) {
   const reduce = useReducedMotion();
+  const [events, setEvents] = useState<SiteEvent[]>(initialEvents?.length ? initialEvents : fallbackEvents);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
+  useEffect(() => {
+    if (initialEvents?.length) return;
+    void fetch("/api/content/events")
+      .then((response) => response.ok ? response.json() as Promise<SiteEvent[]> : null)
+      .then((items) => {
+        if (items?.length) {
+          setEvents(items);
+          setIndex(0);
+        }
+      })
+      .catch(() => undefined);
+  }, [initialEvents]);
+
   const go = useCallback(
     (dir: number) => setIndex((i) => (i + dir + events.length) % events.length),
-    []
+    [events.length]
   );
 
   useEffect(() => {
@@ -66,7 +83,7 @@ export default function EventCards() {
             <div className="relative h-[186px] w-full">
               <Image
                 src={active.image}
-                alt=""
+                alt={active.imageAlt ?? ""}
                 fill
                 sizes="400px"
                 className="object-cover"
@@ -111,7 +128,7 @@ export default function EventCards() {
               </dl>
 
               <a
-                href="/volunteer"
+                href={active.registrationUrl ?? "/volunteer"}
                 className="group mt-auto inline-flex items-center justify-between rounded-full bg-brand-50 px-4 py-2.5 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
               >
                 Reserve a place

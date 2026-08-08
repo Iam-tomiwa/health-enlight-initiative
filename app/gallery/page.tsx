@@ -1,14 +1,19 @@
-import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import GalleryGrid from "@/components/GalleryGrid";
+import { getGalleryItems } from "@/lib/sanity";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Gallery",
   description:
     "Moments from The Health enLight Initiative's school health clubs, AMR awareness campaign and community outreaches.",
-};
+  path: "/gallery",
+});
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const sanityGallery = await getGalleryItems();
+  const gallery =
+    sanityGallery && sanityGallery.length > 0 ? sanityGallery : [];
   return (
     <>
       <PageHeader
@@ -18,7 +23,7 @@ export default function GalleryPage() {
       />
       <section className="bg-white py-16 sm:py-20">
         <div className="container-page">
-          <GalleryGrid />
+          <GalleryGrid gallery={gallery} />
         </div>
       </section>
     </>

@@ -1,18 +1,29 @@
-import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import { ArrowUpRight } from "@/components/icons";
 import { posts } from "@/lib/content";
+import { getArticles, type ArticleCard } from "@/lib/sanity";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Blog",
   description:
     "Evidence-based articles, deep-dive research and community stories from The Health enLight Initiative.",
-};
+  path: "/blog",
+});
 
-export default function BlogPage() {
-  const [featured, ...rest] = posts;
+export default async function BlogPage() {
+  const sanityPosts = await getArticles();
+  const fallbackPosts: ArticleCard[] = posts.map((post, index) => ({
+    ...post,
+    id: `fallback-${index}`,
+    slug: "",
+    imageAlt: "",
+    featured: index === 0,
+  }));
+  const [featured, ...rest] = sanityPosts?.length ? sanityPosts : fallbackPosts;
 
   return (
     <>
@@ -24,21 +35,13 @@ export default function BlogPage() {
 
       <section className="bg-white py-16 sm:py-24">
         <div className="container-page">
-          {/* PLACEHOLDER: replace with the organisation's real research posts */}
-          <Reveal>
-            <div className="mb-10 rounded-2xl border border-dashed border-brand/25 bg-brand-50/50 px-6 py-4 text-sm text-brand">
-              Placeholder articles — connect your CMS or drop in the real research
-              posts to go live.
-            </div>
-          </Reveal>
-
           {/* Featured */}
           <Reveal>
-            <article className="group grid overflow-hidden rounded-3xl border border-line bg-white lg:grid-cols-2">
+            <Link href={featured.slug ? `/blog/${featured.slug}` : "/blog"} className="group grid overflow-hidden rounded-3xl border border-line bg-white lg:grid-cols-2">
               <div className="relative aspect-[16/10] overflow-hidden bg-brand-50 lg:aspect-auto">
                 <Image
                   src={featured.image}
-                  alt=""
+                  alt={featured.imageAlt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
@@ -62,7 +65,7 @@ export default function BlogPage() {
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
               </div>
-            </article>
+            </Link>
           </Reveal>
 
           <RevealGroup className="mt-6 grid gap-6 md:grid-cols-2">
@@ -71,10 +74,11 @@ export default function BlogPage() {
                 key={p.title}
                 className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-white"
               >
+                <Link href={p.slug ? `/blog/${p.slug}` : "/blog"} className="flex h-full flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden bg-brand-50">
                   <Image
                     src={p.image}
-                    alt=""
+                    alt={p.imageAlt}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
@@ -96,6 +100,7 @@ export default function BlogPage() {
                     <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </div>
+                </Link>
               </RevealItem>
             ))}
           </RevealGroup>
