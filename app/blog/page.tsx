@@ -37,14 +37,17 @@ export default async function BlogPage() {
         <div className="container-page">
           {/* Featured */}
           <Reveal>
-            <Link href={featured.slug ? `/blog/${featured.slug}` : "/blog"} className="group grid overflow-hidden rounded-3xl border border-line bg-white lg:grid-cols-2">
+            <Link
+              href={featured.slug ? `/blog/${featured.slug}` : "/blog"}
+              className="group min-h-[400px] grid overflow-hidden rounded-3xl border border-line bg-white lg:grid-cols-2"
+            >
               <div className="relative aspect-[16/10] overflow-hidden bg-brand-50 lg:aspect-auto">
                 <Image
                   src={featured.image}
                   alt={featured.imageAlt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
+                  className="object-contain transition-transform duration-500 ease-smooth group-hover:scale-105"
                 />
               </div>
               <div className="flex flex-col justify-center p-8 sm:p-10">
@@ -74,32 +77,37 @@ export default async function BlogPage() {
                 key={p.title}
                 className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-white"
               >
-                <Link href={p.slug ? `/blog/${p.slug}` : "/blog"} className="flex h-full flex-col">
-                <div className="relative aspect-[16/10] overflow-hidden bg-brand-50">
-                  <Image
-                    src={p.image}
-                    alt={p.imageAlt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center gap-3 text-xs font-medium text-muted">
-                    <span className="rounded-full bg-brand-50 px-3 py-1 font-semibold text-brand">
-                      {p.category}
-                    </span>
-                    <span>{p.readTime}</span>
+                <Link
+                  href={p.slug ? `/blog/${p.slug}` : "/blog"}
+                  className="flex h-full flex-col"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-brand-50">
+                    <Image
+                      src={p.image}
+                      alt={p.imageAlt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-contain transition-transform duration-500 ease-smooth group-hover:scale-105"
+                    />
                   </div>
-                  <h3 className="mt-3 font-display text-lg font-semibold leading-snug text-ink">
-                    {p.title}
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm text-muted">{p.excerpt}</p>
-                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
-                    Read article
-                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </span>
-                </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="flex items-center gap-3 text-xs font-medium text-muted">
+                      <span className="rounded-full bg-brand-50 px-3 py-1 font-semibold text-brand">
+                        {p.category}
+                      </span>
+                      <span>{p.readTime}</span>
+                    </div>
+                    <h3 className="mt-3 font-display text-lg font-semibold leading-snug text-ink">
+                      {p.title}
+                    </h3>
+                    <p className="mt-2 flex-1 text-sm text-muted">
+                      {p.excerpt}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand">
+                      Read article
+                      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </span>
+                  </div>
                 </Link>
               </RevealItem>
             ))}
