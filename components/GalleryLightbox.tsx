@@ -33,6 +33,14 @@ export default function GalleryLightbox({ images }: { images: GalleryImage[] }) 
   }, [images.length]);
 
   useEffect(() => {
+    const openFromHero = () => {
+      if (images.length > 0) setActiveIndex(0);
+    };
+    window.addEventListener("hli:open-program-gallery", openFromHero);
+    return () => window.removeEventListener("hli:open-program-gallery", openFromHero);
+  }, [images.length]);
+
+  useEffect(() => {
     if (!isOpen) return;
     previousFocus.current = document.activeElement as HTMLElement;
     const previousOverflow = document.body.style.overflow;

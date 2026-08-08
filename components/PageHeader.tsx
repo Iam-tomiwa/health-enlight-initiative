@@ -1,13 +1,16 @@
 import Reveal from "./Reveal";
+import type {ReactNode} from "react";
 
 export default function PageHeader({
   eyebrow,
   title,
   intro,
+  action,
 }: {
   eyebrow: string;
   title: string;
   intro?: string;
+  action?: ReactNode;
 }) {
   return (
     <section className="relative overflow-hidden bg-brand-950 pt-[72px] text-white">
@@ -43,6 +46,7 @@ export default function PageHeader({
             </p>
           </Reveal>
         )}
+        {action && <Reveal delay={0.16}><div className="mt-7">{action}</div></Reveal>}
       </div>
     </section>
   );

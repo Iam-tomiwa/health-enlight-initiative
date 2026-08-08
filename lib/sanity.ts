@@ -97,6 +97,17 @@ export type SiteEvent = {
   accent: "gold" | "leaf";
 };
 
+export type SiteSettingsData = {
+  name: string;
+  description: string;
+  footerDescription: string;
+  email: string;
+  phone: string;
+  address: string;
+  hours: string;
+  socialLinks: Array<{key: string; label: string; url: string; handle?: string}>;
+};
+
 export type Article = ArticleCard & {
   author?: { name: string; role: string };
   publishedAt: string;
@@ -292,6 +303,19 @@ export async function getAboutPage() {
       "image": coalesce(seo.image.asset->url, vision.image.asset->url),
       "noIndex": seo.noIndex == true
     }
+  }`);
+}
+
+export async function getSiteSettings() {
+  return sanityFetch<SiteSettingsData | null>(`*[_type == "siteSettings" && _id == "siteSettings"][0] {
+    name,
+    "description": coalesce(description, ""),
+    "footerDescription": coalesce(footerDescription, description, ""),
+    email,
+    phone,
+    address,
+    "hours": coalesce(hours, ""),
+    "socialLinks": socialLinks[]{"key": _key, label, url, handle}
   }`);
 }
 

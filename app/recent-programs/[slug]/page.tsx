@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageHeader from "@/components/PageHeader";
-import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
+import Reveal from "@/components/Reveal";
 import { ArrowRight } from "@/components/icons";
 import { getGalleryAlbum } from "@/lib/sanity";
 import { safeJsonLd } from "@/lib/seo";
 import { site } from "@/lib/content";
 import GalleryLightbox from "@/components/GalleryLightbox";
-import RichText from "@/components/RichText";
+import GalleryHeroButton from "@/components/GalleryHeroButton";
+import ProgramStoryCarousel from "@/components/ProgramStoryCarousel";
 import type { PortableTextBlock } from "@portabletext/types";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -68,7 +69,12 @@ export default async function GalleryAlbumPage({ params }: PageProps) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
-      <PageHeader eyebrow={album.activityType} title={album.title} intro={album.description} />
+      <PageHeader
+        eyebrow={album.activityType}
+        title={album.title}
+        intro={album.description}
+        action={<GalleryHeroButton imageCount={album.images.length} />}
+      />
 
       <article className="bg-white">
         {(story.length > 0 || album.occurredAt) && (
@@ -88,17 +94,7 @@ export default async function GalleryAlbumPage({ params }: PageProps) {
                 </div>
               </Reveal>
 
-              {story.length > 0 && (
-                <RevealGroup className="mt-10 grid gap-5 lg:grid-cols-3">
-                  {story.map((item, index) => (
-                    <RevealItem key={item.label} className="rounded-3xl border border-line bg-white p-7 sm:p-8">
-                      <span className="font-display text-3xl font-semibold text-brand/25">0{index + 1}</span>
-                      <h3 className="mt-5 font-display text-xl font-semibold text-ink">{item.label}</h3>
-                      <div className="mt-3 text-sm"><RichText value={item.body} /></div>
-                    </RevealItem>
-                  ))}
-                </RevealGroup>
-              )}
+              {story.length > 0 && <ProgramStoryCarousel items={story} />}
             </div>
           </section>
         )}
