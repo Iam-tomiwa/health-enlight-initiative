@@ -43,28 +43,36 @@ export default function ContactForm({
   };
 
   const labelFor =
-    variant === "volunteer"
-      ? "How would you like to help?"
-      : "Message";
+    variant === "volunteer" ? "How would you like to help?" : "Message";
 
   if (status === "sent") {
     return (
       <div className="rounded-3xl border border-line bg-brand-50/60 p-8 text-center">
         <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-brand text-white">
-          <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth={2}>
-            <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+          <svg
+            viewBox="0 0 24 24"
+            className="h-7 w-7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              d="m5 13 4 4L19 7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </div>
         <h3 className="mt-5 font-display text-xl font-semibold text-ink">
           Thank you, {values.name.split(" ")[0] || "friend"}!
         </h3>
         <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-          Your message has been captured. We&apos;ll get back to you as soon as we
-          can.
+          Your message has been captured. We&apos;ll get back to you as soon as
+          we can.
         </p>
         <p className="mx-auto mt-4 max-w-sm text-xs text-muted/80">
-          Note: this is a demo form. Connect an email service or form endpoint to
-          receive submissions.
+          Note: this is a demo form. Connect an email service or form endpoint
+          to receive submissions.
         </p>
       </div>
     );
@@ -117,10 +125,6 @@ export default function ContactForm({
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         )}
       </button>
-      <p className="text-xs text-muted/80">
-        This is a demo form and does not yet deliver email. Wire up a form
-        endpoint to receive real submissions.
-      </p>
     </form>
   );
 }
@@ -154,7 +158,9 @@ function Field({
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-ink">
         {label}
-        {optional && <span className="ml-1 text-xs text-muted">(optional)</span>}
+        {optional && (
+          <span className="ml-1 text-xs text-muted">(optional)</span>
+        )}
       </label>
       {textarea ? (
         <textarea
@@ -179,7 +185,10 @@ function Field({
         />
       )}
       {error && (
-        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-red-500">
+        <p
+          id={`${id}-error`}
+          className="mt-1.5 text-xs font-medium text-red-500"
+        >
           {error}
         </p>
       )}
