@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const galleryRoutes: MetadataRoute.Sitemap = (albums ?? []).map((album) => ({
-    url: `${site.url}/gallery/${album.slug}`,
+    url: `${site.url}/recent-programs/${album.slug}`,
     lastModified: new Date(album.updatedAt),
     changeFrequency: "monthly",
     priority: 0.7,

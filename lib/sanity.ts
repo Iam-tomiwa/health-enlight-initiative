@@ -51,16 +51,6 @@ export type TeamMember = {
   photoAlt?: string;
 };
 
-export type GalleryItem = {
-  id?: string;
-  src: string;
-  alt: string;
-  caption?: string;
-  category: string;
-  categoryLabel?: string;
-  albumSlug: string;
-};
-
 export type GalleryAlbum = {
   id: string;
   title: string;
@@ -78,6 +68,18 @@ export type GalleryAlbum = {
     alt: string;
     caption?: string;
   }>;
+};
+
+export type RecentProgram = {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  activityType: string;
+  occurredAt?: string;
+  coverImage: string;
+  coverImageAlt: string;
+  imageCount: number;
 };
 
 export type SiteEvent = {
@@ -194,18 +196,19 @@ export async function getTeamMembers() {
     }`);
 }
 
-export async function getGalleryItems() {
-  return sanityFetch<GalleryItem[]>(`*[_type == "galleryAlbum"] | order(occurredAt desc) {
-    images[]{
-      "id": ^._id + "-" + _key,
-      "src": asset->url,
-      alt,
-      "caption": coalesce(caption, ^.title),
-      "category": lower(coalesce(^.activityType, "gallery")),
-      "categoryLabel": coalesce(^.activityType, "Gallery"),
-      "albumSlug": ^.slug.current
-    }
-  }[].images[]`);
+export async function getRecentPrograms() {
+  return sanityFetch<RecentProgram[]>(`*[_type == "galleryAlbum" && defined(slug.current) && count(images) > 0]
+    | order(occurredAt desc) {
+      "id": _id,
+      title,
+      "slug": slug.current,
+      "description": coalesce(description, ""),
+      "activityType": coalesce(activityType, "Program"),
+      occurredAt,
+      "coverImage": images[0].asset->url,
+      "coverImageAlt": coalesce(images[0].alt, title),
+      "imageCount": count(images)
+    }`);
 }
 
 export async function getGalleryAlbum(slug: string) {

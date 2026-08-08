@@ -87,6 +87,32 @@ export function Phone(props: IconProps) {
   );
 }
 
+export function Instagram(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true" {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+export function LinkedIn(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M6.45 8.35H3.2V18.8h3.25V8.35ZM4.82 3.2a1.88 1.88 0 1 0 0 3.76 1.88 1.88 0 0 0 0-3.76ZM18.8 12.8c0-3.15-1.68-4.62-3.93-4.62a3.39 3.39 0 0 0-3.08 1.69V8.35H8.54V18.8h3.25v-5.17c0-1.36.26-2.68 1.95-2.68 1.67 0 1.69 1.56 1.69 2.77v5.08h3.25l.12-6Z" />
+    </svg>
+  );
+}
+
+export function XSocial(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M18.9 3H22l-6.77 7.74L23.2 21h-6.24l-4.89-6.39L6.48 21H3.36l7.26-8.3L2.98 3h6.4l4.42 5.84L18.9 3Zm-1.1 16.2h1.73L8.44 4.7H6.59L17.8 19.2Z" />
+    </svg>
+  );
+}
+
 const programPaths: Record<string, ReactElement> = {
   research: (
     <>

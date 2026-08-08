@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { nav, site } from "@/lib/content";
-import { Logo, Mail, Phone, Pin, ArrowUpRight } from "./icons";
+import {Mail, Phone, Pin, ArrowUpRight, Instagram, LinkedIn, XSocial} from "./icons";
+
+const socialIcons = {
+  Instagram,
+  LinkedIn,
+  X: XSocial,
+};
 
 export default function Footer() {
   return (
@@ -10,9 +16,9 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center" aria-label={site.name}>
               <img
-                src="/logo-light.png"
+                src="/logo.png"
                 alt={site.name}
-                className="h-9 w-auto object-contain"
+                className="h-9 w-auto object-contain invert grayscale"
               />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
@@ -21,18 +27,21 @@ export default function Footer() {
               promote well-being.
             </p>
             <div className="mt-6 flex gap-2">
-              {site.socials.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="grid h-10 w-10 place-items-center rounded-full ring-1 ring-inset ring-white/15 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
-                  aria-label={s.label}
-                >
-                  <span className="text-xs font-semibold">{s.label[0]}</span>
-                </a>
-              ))}
+              {site.socials.map((social) => {
+                const SocialIcon = socialIcons[social.label as keyof typeof socialIcons];
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="grid h-10 w-10 place-items-center rounded-full ring-1 ring-inset ring-white/15 text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+                    aria-label={`Follow us on ${social.label}`}
+                  >
+                    <SocialIcon className="h-[18px] w-[18px]" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 

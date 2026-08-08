@@ -15,9 +15,9 @@ type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const album = await getGalleryAlbum((await params).slug);
-  if (!album) return { title: "Gallery album not found", robots: { index: false, follow: false } };
+  if (!album) return { title: "Program not found", robots: { index: false, follow: false } };
 
-  const canonical = `${site.url}/gallery/${album.slug}`;
+  const canonical = `${site.url}/recent-programs/${album.slug}`;
   const image = album.images[0];
   return {
     title: album.title,
@@ -55,7 +55,7 @@ export default async function GalleryAlbumPage({ params }: PageProps) {
     "@type": "ImageGallery",
     name: album.title,
     description: album.description,
-    url: `${site.url}/gallery/${album.slug}`,
+    url: `${site.url}/recent-programs/${album.slug}`,
     datePublished: album.occurredAt,
     image: album.images.map((image) => ({
       "@type": "ImageObject",
@@ -117,9 +117,9 @@ export default async function GalleryAlbumPage({ params }: PageProps) {
 
             <Reveal>
               <div className="mt-14 border-t border-line pt-8">
-                <Link href="/gallery" className="group inline-flex items-center gap-2 text-sm font-semibold text-brand link-underline">
+                <Link href="/recent-programs" className="group inline-flex items-center gap-2 text-sm font-semibold text-brand link-underline">
                   <ArrowRight className="h-4 w-4 rotate-180 transition-transform duration-300 group-hover:-translate-x-1" />
-                  Back to all gallery moments
+                  Back to recent programs
                 </Link>
               </div>
             </Reveal>
