@@ -66,6 +66,11 @@ export default async function ArticlePage({ params }: PageProps) {
         eyebrow={article.category}
         title={article.title}
         intro={article.excerpt}
+        breadcrumbs={[
+          {label: "Home", href: "/"},
+          {label: "Blog", href: "/blog"},
+          {label: article.title},
+        ]}
       />
 
       <article className="bg-white pb-20 pt-10 sm:pb-28 sm:pt-12">

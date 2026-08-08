@@ -1,16 +1,19 @@
 import Reveal from "./Reveal";
 import type {ReactNode} from "react";
+import Link from "next/link";
 
 export default function PageHeader({
   eyebrow,
   title,
   intro,
   action,
+  breadcrumbs,
 }: {
   eyebrow: string;
   title: string;
   intro?: string;
   action?: ReactNode;
+  breadcrumbs?: Array<{label: string; href?: string}>;
 }) {
   return (
     <section className="relative overflow-hidden bg-brand-950 pt-[72px] text-white">
@@ -29,6 +32,27 @@ export default function PageHeader({
       </div>
 
       <div className="container-page relative py-16 sm:py-20">
+        {breadcrumbs && breadcrumbs.length > 0 && (
+          <Reveal>
+            <nav aria-label="Breadcrumb" className="mb-6 overflow-hidden">
+              <ol className="flex min-w-0 items-center gap-2 text-xs font-medium text-white/55">
+                {breadcrumbs.map((item, index) => {
+                  const current = index === breadcrumbs.length - 1;
+                  return (
+                    <li key={`${item.label}-${index}`} className={`flex min-w-0 items-center gap-2 ${current ? "flex-1" : "shrink-0"}`}>
+                      {index > 0 && <span className="text-white/25" aria-hidden="true">/</span>}
+                      {item.href && !current ? (
+                        <Link href={item.href} className="transition-colors hover:text-white">{item.label}</Link>
+                      ) : (
+                        <span className={current ? "truncate text-white/75" : ""} aria-current={current ? "page" : undefined}>{item.label}</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ol>
+            </nav>
+          </Reveal>
+        )}
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-leaf">
             {eyebrow}

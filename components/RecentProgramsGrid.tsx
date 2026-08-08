@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import {useMemo, useState} from "react";
 import { ArrowRight } from "@/components/icons";
 import type { RecentProgram } from "@/lib/sanity";
 
@@ -17,6 +20,14 @@ export default function RecentProgramsGrid({
 }: {
   programs: RecentProgram[];
 }) {
+  const [filter, setFilter] = useState<"all" | "webinar" | "outreach">("all");
+  const filteredPrograms = useMemo(
+    () => filter === "all"
+      ? programs
+      : programs.filter((program) => program.activityType.toLowerCase() === filter),
+    [filter, programs],
+  );
+
   if (programs.length === 0) {
     return (
       <div className="rounded-3xl border border-line bg-cream px-6 py-16 text-center">
@@ -30,9 +41,45 @@ export default function RecentProgramsGrid({
     );
   }
 
+  const tabs = [
+    {id: "all" as const, label: "All Programs", count: programs.length},
+    {id: "webinar" as const, label: "Webinars", count: programs.filter((program) => program.activityType.toLowerCase() === "webinar").length},
+    {id: "outreach" as const, label: "Outreaches", count: programs.filter((program) => program.activityType.toLowerCase() === "outreach").length},
+  ];
+
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {programs.map((program, index) => (
+    <div>
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label="Filter recent programs">
+        {tabs.map((tab) => {
+          const active = filter === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => setFilter(tab.id)}
+              className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
+                active
+                  ? "bg-brand text-white"
+                  : "bg-white text-ink/70 ring-1 ring-inset ring-line hover:text-brand"
+              }`}
+            >
+              {tab.label}
+              <span className={`rounded-full px-2 py-0.5 text-xs tabular-nums ${active ? "bg-white/15 text-white" : "bg-brand-50 text-brand"}`}>{tab.count}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {filteredPrograms.length === 0 ? (
+        <div className="mt-8 rounded-3xl border border-line bg-cream px-6 py-14 text-center">
+          <p className="font-display text-xl font-semibold text-ink">No {filter === "webinar" ? "webinars" : "outreaches"} to show yet</p>
+          <p className="mt-2 text-sm text-muted">New program highlights will appear here when published.</p>
+        </div>
+      ) : (
+      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {filteredPrograms.map((program, index) => (
         <Link
           key={program.id}
           href={`/recent-programs/${program.slug}`}
@@ -90,6 +137,8 @@ export default function RecentProgramsGrid({
           </div>
         </Link>
       ))}
+      </div>
+      )}
     </div>
   );
 }

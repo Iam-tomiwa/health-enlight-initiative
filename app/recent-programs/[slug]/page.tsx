@@ -73,6 +73,11 @@ export default async function GalleryAlbumPage({ params }: PageProps) {
         eyebrow={album.activityType}
         title={album.title}
         intro={album.description}
+        breadcrumbs={[
+          {label: "Home", href: "/"},
+          {label: "Recent Programs", href: "/recent-programs"},
+          {label: album.title},
+        ]}
         action={<GalleryHeroButton imageCount={album.images.length} />}
       />
 
