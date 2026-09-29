@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>HLI Event Reminder</title>
+  </head>
+  <body style="margin:0;padding:0;background-color:#f7f5ef;font-family:Arial,Helvetica,sans-serif;color:#12211a;">
+    <!-- Replace the preview text and bracketed copy before sending. -->
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">A reminder: {{params.eventTitle}} is coming up {{params.whenLabel}}.</div>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f7f5ef;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0" style="width:100%;max-width:600px;background-color:#ffffff;border:1px solid #e3e8e4;border-radius:16px;overflow:hidden;">
+            <tr>
+              <td style="padding:22px 28px;background-color:#0b4422;">
+                <p style="margin:0;font-size:12px;line-height:18px;letter-spacing:2px;text-transform:uppercase;color:#cfe2d5;">The Health enLight Initiative</p>
+                <p style="margin:8px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:18px;line-height:24px;font-weight:700;color:#ffffff;">Enlightening Communities, Transforming Health</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:32px 28px 18px;">
+                <p style="margin:0;font-size:12px;line-height:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#2f7350;">A friendly reminder</p>
+                <h1 style="margin:10px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:29px;line-height:36px;font-weight:700;color:#0b4422;">{{params.eventTitle}} is {{params.whenLabel}}</h1>
+                <p style="margin:14px 0 0;font-size:16px;line-height:25px;color:#5b6b62;">Hello {{params.firstName}}, we&apos;re looking forward to having you with us. Here are the details so you can plan ahead.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:6px 28px 24px;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#eef4f0;border-radius:14px;">
+                  <tr><td style="padding:20px 20px 7px;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#2f7350;">When</td></tr>
+                  <tr><td style="padding:0 20px 14px;font-size:16px;line-height:24px;font-weight:700;color:#12211a;">{{params.eventDate}} · {{params.eventTime}}</td></tr>
+                  <tr><td style="padding:0 20px 7px;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#2f7350;">Where</td></tr>
+                  <tr><td style="padding:0 20px 20px;font-size:15px;line-height:23px;color:#43544a;">{{params.eventLocation}}</td></tr>
+                </table>
+                <p style="margin:22px 0 0;"><a href="{{params.actionUrl}}" style="display:inline-block;padding:13px 22px;background-color:#0b4422;border-radius:999px;color:#ffffff;font-size:14px;line-height:20px;font-weight:700;text-decoration:none;">{{params.ctaText}}</a></p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 28px 28px;">
+                <p style="margin:0;font-size:14px;line-height:23px;color:#5b6b62;">{{params.eventNote}}</p>
+                <p style="margin:16px 0 0;font-size:14px;line-height:22px;color:#5b6b62;">Need help? Email <a href="mailto:thehealthenlightinitiative@gmail.com" style="color:#0b4422;text-decoration:underline;">thehealthenlightinitiative@gmail.com</a>.</p>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding:22px 28px;background-color:#eef4f0;">
+                <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:24px;font-weight:700;color:#0b4422;">See you soon.</p>
+                <p style="margin:8px 0 0;font-size:13px;line-height:20px;color:#5b6b62;">The Health enLight Initiative · Fadeke Street, Ikorodu, Lagos, Nigeria</p>
+                <p style="margin:12px 0 0;font-size:12px;line-height:18px;color:#5b6b62;">You&apos;re receiving HLI event updates. <a href="{{ unsubscribe }}" style="color:#0b4422;text-decoration:underline;">Unsubscribe</a></p>
+                <p style="margin:8px 0 0;font-size:12px;line-height:18px;"><a href="https://www.thehealthenlightinitiative.org" style="color:#0b4422;text-decoration:underline;">Visit our website</a></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

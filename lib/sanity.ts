@@ -108,6 +108,18 @@ export type SiteSettingsData = {
   socialLinks: Array<{key: string; label: string; url: string; handle?: string}>;
 };
 
+export type HomepageSettingsData = {
+  heroEyebrow: string;
+  headlineLead: string;
+  headlineHighlight: string;
+  heroDescription: string;
+  primaryCtaLabel: string;
+  primaryCtaUrl: string;
+  secondaryCtaLabel: string;
+  secondaryCtaUrl: string;
+  heroImages: Array<{key: string; url: string; alt: string}>;
+};
+
 export type Article = ArticleCard & {
   author?: { name: string; role: string };
   publishedAt: string;
@@ -316,6 +328,24 @@ export async function getSiteSettings() {
     address,
     "hours": coalesce(hours, ""),
     "socialLinks": socialLinks[]{"key": _key, label, url, handle}
+  }`);
+}
+
+export async function getHomepageSettings() {
+  return sanityFetch<HomepageSettingsData | null>(`*[_type == "homepageSettings" && _id == "homepageSettings"][0] {
+    "heroEyebrow": coalesce(heroEyebrow, ""),
+    "headlineLead": coalesce(headlineLead, ""),
+    "headlineHighlight": coalesce(headlineHighlight, ""),
+    "heroDescription": coalesce(heroDescription, ""),
+    "primaryCtaLabel": coalesce(primaryCtaLabel, ""),
+    "primaryCtaUrl": coalesce(primaryCtaUrl, ""),
+    "secondaryCtaLabel": coalesce(secondaryCtaLabel, ""),
+    "secondaryCtaUrl": coalesce(secondaryCtaUrl, ""),
+    "heroImages": coalesce(heroImages, [])[]{
+      "key": _key,
+      "url": asset->url,
+      "alt": coalesce(alt, "")
+    }[defined(url)]
   }`);
 }
 

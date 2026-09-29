@@ -7,7 +7,8 @@ import CountUp from "@/components/CountUp";
 import Button from "@/components/Button";
 import RichText from "@/components/RichText";
 import {ArrowRight} from "@/components/icons";
-import {getAboutPage} from "@/lib/sanity";
+import SocialLinks from "@/components/SocialLinks";
+import {getAboutPage, getSiteSettings} from "@/lib/sanity";
 import {createPageMetadata} from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -24,12 +25,26 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const page = await getAboutPage();
+  const [page, settings] = await Promise.all([getAboutPage(), getSiteSettings()]);
   if (!page) notFound();
 
   return (
     <>
-      <PageHeader eyebrow={page.header.eyebrow} title={page.header.title} intro={page.header.introduction} />
+      <PageHeader
+        eyebrow={page.header.eyebrow}
+        title={page.header.title}
+        intro={page.header.introduction}
+        action={
+          settings?.socialLinks.length ? (
+            <div className="space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/55">
+                Follow our work
+              </p>
+              <SocialLinks links={settings.socialLinks} tone="dark" />
+            </div>
+          ) : undefined
+        }
+      />
 
       <section className="bg-white py-20 sm:py-24">
         <div className="container-page grid items-center gap-12 lg:grid-cols-2">

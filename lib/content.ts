@@ -1,7 +1,7 @@
 /**
  * Central content source for The Health enLight Initiative site.
- * Text is drawn from the organisation's existing pages; events and blog
- * posts are clearly-marked placeholders that can be swapped for real data.
+ * Text is drawn from the organisation's existing pages; blog posts are
+ * clearly-marked placeholders that can be swapped for real data.
  */
 
 export const site = {
@@ -43,94 +43,7 @@ export const nav = [
   { label: "Contact", href: "/contact" },
 ];
 
-// Gallery photos hosted on the initiative's live domain.
-const IMG = "https://www.thehealthenlightinitiative.org/gallery";
-export const galleryImages = {
-  schoolClub: Array.from(
-    { length: 10 },
-    (_, i) => `${IMG}/school_club/school_club_${i + 1}.jpg`,
-  ),
-  amr: [
-    ...Array.from({ length: 10 }, (_, i) => `${IMG}/amr/amr_${i + 1}.jpg`),
-    `${IMG}/amr/amr_8b.jpg`,
-  ],
-};
-
-export const galleryCategories = [
-  { id: "all", label: "All" },
-  { id: "school", label: "School Health Clubs" },
-  { id: "amr", label: "AMR Campaign" },
-];
-
-export const gallery = [
-  ...galleryImages.schoolClub.map((src, i) => ({
-    src,
-    category: "school" as const,
-    alt: `Students at a Health enLight school club session (${i + 1})`,
-  })),
-  ...galleryImages.amr.map((src, i) => ({
-    src,
-    category: "amr" as const,
-    alt: `Antimicrobial Resistance awareness campaign (${i + 1})`,
-  })),
-];
-
-/** PLACEHOLDER events — replace with real programme dates before launch. */
-export const events = [
-  {
-    id: "amr-week",
-    tag: "Webinar",
-    status: "Registration open",
-    title: "World AMR Awareness Week Live",
-    blurb:
-      "A cross-border panel with medical professionals on slowing antimicrobial resistance in everyday care.",
-    date: "18 Nov 2026",
-    time: "5:00 PM WAT",
-    location: "Online · Zoom",
-    image: `${IMG}/amr/amr_4.jpg`,
-    accent: "gold" as const,
-  },
-  {
-    id: "school-drive",
-    tag: "School Club",
-    status: "Now enrolling",
-    title: "School Health Ambassadors Cohort",
-    blurb:
-      "Training a new set of student champions to lead practical health education among their peers.",
-    date: "03 Sep 2026",
-    time: "10:00 AM WAT",
-    location: "Ikorodu, Lagos",
-    image: `${IMG}/school_club/school_club_2.jpg`,
-    accent: "leaf" as const,
-  },
-  {
-    id: "community-outreach",
-    tag: "Outreach",
-    status: "Volunteers needed",
-    title: "Community Health & Screening Day",
-    blurb:
-      "Free basic screenings and culturally-relevant health education delivered directly to an underserved community.",
-    date: "27 Sep 2026",
-    time: "9:00 AM WAT",
-    location: "Ikorodu, Lagos",
-    image: `${IMG}/school_club/school_club_7.jpg`,
-    accent: "leaf" as const,
-  },
-  {
-    id: "career-webinar",
-    tag: "Webinar",
-    status: "Save the date",
-    title: "Careers in Public Health",
-    blurb:
-      "An interactive session guiding young people toward rewarding, evidence-driven careers in public health.",
-    date: "15 Oct 2026",
-    time: "6:00 PM WAT",
-    location: "Online · Zoom",
-    image: `${IMG}/amr/amr_8b.jpg`,
-    accent: "gold" as const,
-  },
-];
-
+const IMG = "/gallery";
 export const stats = [
   { value: 44, suffix: "+", label: "School Health Ambassadors" },
   { value: 12, suffix: "+", label: "Webinars organized" },

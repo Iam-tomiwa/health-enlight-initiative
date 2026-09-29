@@ -2,8 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // The live gallery photos are hosted on the initiative's own domain.
-    // Swap or extend these patterns when you migrate the images to your own CDN.
+    // Keep remote patterns for CMS images and any externally hosted media.
     remotePatterns: [
       {
         protocol: "https",

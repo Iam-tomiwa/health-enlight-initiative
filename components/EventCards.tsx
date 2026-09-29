@@ -3,32 +3,18 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { events as fallbackEvents } from "@/lib/content";
 import type { SiteEvent } from "@/lib/sanity";
 import { Calendar, Clock, Pin, ArrowRight } from "./icons";
 
 const ROTATE_MS = 4200;
 
-type EventCardsProps = { initialEvents?: SiteEvent[] };
+type EventCardsProps = { initialEvents: SiteEvent[] };
 
 export default function EventCards({ initialEvents }: EventCardsProps) {
   const reduce = useReducedMotion();
-  const [events, setEvents] = useState<SiteEvent[]>(initialEvents?.length ? initialEvents : fallbackEvents);
+  const [events] = useState<SiteEvent[]>(initialEvents);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (initialEvents?.length) return;
-    void fetch("/api/content/events")
-      .then((response) => response.ok ? response.json() as Promise<SiteEvent[]> : null)
-      .then((items) => {
-        if (items?.length) {
-          setEvents(items);
-          setIndex(0);
-        }
-      })
-      .catch(() => undefined);
-  }, [initialEvents]);
 
   const go = useCallback(
     (dir: number) => setIndex((i) => (i + dir + events.length) % events.length),
@@ -36,10 +22,26 @@ export default function EventCards({ initialEvents }: EventCardsProps) {
   );
 
   useEffect(() => {
-    if (reduce || paused) return;
+    if (reduce || paused || events.length < 2) return;
     const t = setInterval(() => go(1), ROTATE_MS);
     return () => clearInterval(t);
-  }, [reduce, paused, go]);
+  }, [reduce, paused, go, events.length]);
+
+  if (events.length === 0) {
+    return (
+      <div className="mx-auto w-full max-w-[400px] rounded-3xl bg-white p-8 text-center shadow-float">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand">
+          Upcoming events
+        </p>
+        <p className="mt-3 font-display text-xl font-semibold text-ink">
+          No upcoming events
+        </p>
+        <p className="mt-2 text-sm text-muted">
+          Check back soon for our next community programme.
+        </p>
+      </div>
+    );
+  }
 
   const active = events[index];
 

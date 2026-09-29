@@ -1,8 +1,10 @@
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
+import SocialLinks from "@/components/SocialLinks";
 import { Mail, Phone, Pin, Clock } from "@/components/icons";
 import { site } from "@/lib/content";
+import { getSiteSettings } from "@/lib/sanity";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -18,12 +20,24 @@ const details = [
     label: "Address",
     value: `${site.address.line1}, ${site.address.line2}`,
   },
-  { icon: Phone, label: "Phone", value: site.phone, href: `tel:${site.phoneHref}` },
-  { icon: Mail, label: "Email", value: site.email, href: `mailto:${site.email}` },
+  {
+    icon: Phone,
+    label: "Phone",
+    value: site.phone,
+    href: `tel:${site.phoneHref}`,
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    value: site.email,
+    href: `mailto:${site.email}`,
+  },
   { icon: Clock, label: "Hours", value: site.hours },
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+
   return (
     <>
       <PageHeader
@@ -67,7 +81,18 @@ export default function ContactPage() {
               ))}
             </div>
 
-            <Reveal delay={0.2}>
+            {settings?.socialLinks.length ? (
+              <Reveal delay={0.2}>
+                <div className="mt-10 border-t border-line pt-7">
+                  <h2 className="font-display text-xl font-semibold text-ink">
+                    Follow our work
+                  </h2>
+                  <SocialLinks links={settings.socialLinks} className="mt-4" />
+                </div>
+              </Reveal>
+            ) : null}
+
+            {/* <Reveal delay={0.25}>
               <div className="mt-10 overflow-hidden rounded-3xl border border-line">
                 <iframe
                   title="Map showing Ikorodu, Lagos"
@@ -77,7 +102,7 @@ export default function ContactPage() {
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               </div>
-            </Reveal>
+            </Reveal> */}
           </div>
 
           <Reveal delay={0.1}>

@@ -109,26 +109,47 @@ Almost all copy lives in **`lib/content.ts`**:
   real content from the organisation.
 - `team`, `posts` — **placeholders**, clearly flagged in the UI. Swap in real
   member profiles / research articles.
-- `gallery` — pulls the live photos from the initiative's domain.
+- Homepage hero and impact-gallery photos — stored in the `Homepage settings`
+  singleton in Sanity.
 
 ---
 
 ## Images
 
-The gallery and event photos currently reference the initiative's live domain
-(`www.thehealthenlightinitiative.org/gallery/...`), whitelisted in
-`next.config.mjs` under `images.remotePatterns`. To host your own images,
-add them to `public/` (or a CDN) and update the URLs in `lib/content.ts` and the
-`remotePatterns` list.
+The homepage slideshow and impact-gallery photos are managed in Sanity Studio
+under `Homepage settings`. The previous local photos remain in `public/gallery/`
+for the blog's static placeholder cards. Remote image patterns in
+`next.config.mjs` allow Sanity CDN images to load through Next.js Image.
 
 ---
 
 ## Forms
 
-`ContactForm` validates on submit and shows success/error states, but **does not
-send email** — there is no backend wired up. Connect a form endpoint (e.g.
-Formspree, Resend, a Next route handler, or your CRM) in `components/ContactForm.tsx`
-where the `setTimeout` simulation is.
+The shared `ContactForm` posts to `app/api/forms/route.ts`. The route sends a
+notification to HLI's inbox through Brevo's transactional email API and adds
+eligible contacts to the configured Brevo lists. The API key stays on the
+server; the form never talks to Brevo directly. Inbox notifications use an
+inline HTML email layout styled with HLI's forest green, cream and typography.
+
+### Brevo setup
+
+1. In Brevo, create two contact lists: `HLI Newsletter & Public Events` and
+   `HLI Volunteers`.
+2. Add a verified sender address in Brevo. This is the address used in
+   `BREVO_SENDER_EMAIL`; form submissions go to `BREVO_TO_EMAIL` (defaults to
+   HLI's public email).
+3. Create an API key with permission to manage contacts and send transactional
+   email.
+4. Copy the API key, verified sender address, and the two numeric list IDs into
+   `.env` using the names in `.env.example`. Add the same server-only
+   variables to the production deployment environment, then redeploy.
+
+The contact form's newsletter checkbox is optional and unchecked by default.
+Contact submissions enter the newsletter list only after the person checks it.
+Volunteer applications are added to both lists automatically; the form explains
+that submitting applies them to the volunteer list and subscribes them to HLI's
+newsletter and public event emails. Use the newsletter list for newsletter/event
+marketing and the volunteer list for application coordination.
 
 ---
 
@@ -144,7 +165,6 @@ where the `setTimeout` simulation is.
 ## Known gaps / next steps
 
 - Replace placeholder **events**, **team profiles** and **blog posts** with real data.
-- Wire the **contact/volunteer forms** to a real endpoint.
 - Migrate gallery images to your own hosting and update `remotePatterns`.
 - Add an OG share image at `public/og.jpg` and reference it in `app/layout.tsx`.
 

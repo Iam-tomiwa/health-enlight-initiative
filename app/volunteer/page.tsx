@@ -3,6 +3,8 @@ import Reveal, { RevealGroup, RevealItem } from "@/components/Reveal";
 import ContactForm from "@/components/ContactForm";
 import { ProgramIcon } from "@/components/icons";
 import { createPageMetadata } from "@/lib/seo";
+import { getSiteSettings } from "@/lib/sanity";
+import SocialLinks from "@/components/SocialLinks";
 
 export const metadata = createPageMetadata({
   title: "Volunteer",
@@ -29,7 +31,9 @@ const ways = [
   },
 ];
 
-export default function VolunteerPage() {
+export default async function VolunteerPage() {
+  const settings = await getSiteSettings();
+
   return (
     <>
       <PageHeader
@@ -63,6 +67,19 @@ export default function VolunteerPage() {
                   </div>
                 </RevealItem>
               ))}
+              {settings?.socialLinks.length ? (
+                <Reveal delay={0.2}>
+                  <div className="mt-10 border-t border-line pt-7">
+                    <h2 className="font-display text-xl font-semibold text-ink">
+                      Follow our work
+                    </h2>
+                    <SocialLinks
+                      links={settings.socialLinks}
+                      className="mt-4"
+                    />
+                  </div>
+                </Reveal>
+              ) : null}
             </RevealGroup>
 
             <Reveal delay={0.1}>
