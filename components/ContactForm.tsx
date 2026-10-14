@@ -489,9 +489,6 @@ function SelectField({
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-medium text-ink">
         {label}{" "}
-        <span className="text-red-600" aria-hidden="true">
-          *
-        </span>
       </label>
       {hint && (
         <p id={`${id}-hint`} className="mb-2 text-sm text-muted">
