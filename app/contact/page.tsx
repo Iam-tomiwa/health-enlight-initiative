@@ -14,29 +14,29 @@ export const metadata = createPageMetadata({
   path: "/contact",
 });
 
-const details = [
-  {
-    icon: Pin,
-    label: "Address",
-    value: `${site.address.line1}, ${site.address.line2}`,
-  },
-  {
-    icon: Phone,
-    label: "Phone",
-    value: site.phone,
-    href: `tel:${site.phoneHref}`,
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: site.email,
-    href: `mailto:${site.email}`,
-  },
-  { icon: Clock, label: "Hours", value: site.hours },
-];
-
 export default async function ContactPage() {
   const settings = await getSiteSettings();
+  const email = settings?.email || site.email;
+  const details = [
+    {
+      icon: Pin,
+      label: "Address",
+      value: `${site.address.line1}, ${site.address.line2}`,
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: site.phone,
+      href: `tel:${site.phoneHref}`,
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      value: email,
+      href: `mailto:${email}`,
+    },
+    { icon: Clock, label: "Hours", value: site.hours },
+  ];
 
   return (
     <>
