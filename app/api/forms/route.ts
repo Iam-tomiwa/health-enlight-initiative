@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
 import { site } from "@/lib/content";
+import {
+  volunteerPreferenceOptions,
+  volunteerSkillOptions,
+  volunteerStatusOptions,
+} from "@/lib/volunteer-form";
 
 export const runtime = "nodejs";
 
@@ -11,6 +16,13 @@ type FormPayload = {
   subject?: unknown;
   message?: unknown;
   newsletterOptIn?: unknown;
+  whatsapp?: unknown;
+  lga?: unknown;
+  status?: unknown;
+  statusOther?: unknown;
+  preference?: unknown;
+  skills?: unknown;
+  skillOther?: unknown;
   website?: unknown;
   formType?: unknown;
 };
@@ -41,6 +53,7 @@ function buildNotificationEmail({
   subject,
   message,
   newsletterOptIn,
+  volunteerDetails,
 }: {
   formLabel: string;
   name: string;
@@ -48,6 +61,13 @@ function buildNotificationEmail({
   subject: string;
   message: string;
   newsletterOptIn: boolean;
+  volunteerDetails?: {
+    whatsapp: string;
+    lga: string;
+    status: string;
+    preference: string;
+    skills: string[];
+  };
 }) {
   const safeName = escapeHtml(name);
   const safeEmail = escapeHtml(email);
@@ -56,6 +76,22 @@ function buildNotificationEmail({
   const subscriptionStatus = newsletterOptIn
     ? "Subscribed to newsletter and public event emails"
     : "Not subscribed to newsletter emails";
+
+  const informationRows = volunteerDetails
+    ? ([
+        ["WhatsApp Phone Number", volunteerDetails.whatsapp],
+        ["Local Government Area", volunteerDetails.lga],
+        ["Current Status", volunteerDetails.status],
+        ["Volunteer Preference", volunteerDetails.preference],
+        ["Skills and Experience", volunteerDetails.skills.join(", ")],
+      ] as Array<[string, string]>)
+        .map(([label, value]) => `<tr><td style="padding:12px 16px;border-bottom:1px solid #e3e8e4;font-size:12px;line-height:18px;font-weight:700;color:#5b6b62;vertical-align:top;width:36%;">${escapeHtml(label)}</td><td style="padding:12px 16px;border-bottom:1px solid #e3e8e4;font-size:14px;line-height:21px;color:#12211a;word-break:break-word;">${escapeHtml(value)}</td></tr>`)
+        .join("")
+    : `<tr><td style="padding:16px 18px 8px;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5b6b62;">Subject</td></tr><tr><td style="padding:0 18px 16px;font-size:15px;line-height:22px;font-weight:600;color:#12211a;">${safeSubject}</td></tr><tr><td style="padding:0 18px 8px;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5b6b62;">Email preference</td></tr><tr><td style="padding:0 18px 16px;font-size:14px;line-height:21px;color:#12211a;">${subscriptionStatus}</td></tr>`;
+
+  const responseContent = volunteerDetails
+    ? ""
+    : `<p style="margin:0 0 10px;font-size:12px;line-height:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5b6b62;">Message</p><div style="padding:18px;background-color:#ffffff;border:1px solid #e3e8e4;border-radius:12px;font-size:15px;line-height:24px;color:#12211a;word-break:break-word;">${safeMessage}</div>`;
 
   return `<!doctype html>
 <html lang="en">
@@ -75,7 +111,7 @@ function buildNotificationEmail({
               <td style="padding:28px 32px;background-color:#0b4422;color:#ffffff;">
                 <p style="margin:0;font-size:12px;line-height:18px;letter-spacing:2px;text-transform:uppercase;color:#cfe2d5;">The Health enLight Initiative</p>
                 <h1 style="margin:12px 0 0;font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:32px;font-weight:600;color:#ffffff;">${escapeHtml(formLabel)}</h1>
-                <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#e5efe8;">A new message has arrived from your website.</p>
+                <p style="margin:8px 0 0;font-size:14px;line-height:21px;color:#e5efe8;">A new ${volunteerDetails ? "application" : "message"} has arrived from your website.</p>
               </td>
             </tr>
             <tr>
@@ -87,18 +123,15 @@ function buildNotificationEmail({
             </tr>
             <tr>
               <td style="padding:12px 32px 24px;">
+                ${volunteerDetails ? `<p style="margin:0 0 10px;font-size:12px;line-height:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5b6b62;">Application details</p>` : ""}
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f7f5ef;border-radius:12px;">
-                  <tr><td style="padding:16px 18px 8px;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5b6b62;">Subject</td></tr>
-                  <tr><td style="padding:0 18px 16px;font-size:15px;line-height:22px;font-weight:600;color:#12211a;">${safeSubject}</td></tr>
-                  <tr><td style="padding:0 18px 8px;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5b6b62;">Email preference</td></tr>
-                  <tr><td style="padding:0 18px 16px;font-size:14px;line-height:21px;color:#12211a;">${subscriptionStatus}</td></tr>
+                  ${informationRows}
                 </table>
               </td>
             </tr>
             <tr>
               <td style="padding:0 32px 30px;">
-                <p style="margin:0 0 10px;font-size:12px;line-height:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#5b6b62;">Message</p>
-                <div style="padding:18px;background-color:#ffffff;border:1px solid #e3e8e4;border-radius:12px;font-size:15px;line-height:24px;color:#12211a;word-break:break-word;">${safeMessage}</div>
+                ${responseContent}
                 <a href="mailto:${safeEmail}" style="display:inline-block;margin-top:22px;padding:12px 20px;background-color:#0b4422;border-radius:999px;color:#ffffff;font-size:14px;line-height:20px;font-weight:700;text-decoration:none;">Reply to ${safeName}</a>
               </td>
             </tr>
@@ -156,7 +189,30 @@ export async function POST(request: Request) {
   const formType = payload.formType === "volunteer" ? "volunteer" : payload.formType === "contact" ? "contact" : "";
   const newsletterOptIn = formType === "volunteer" || payload.newsletterOptIn === true;
 
-  if (!formType || !name || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  const whatsapp = cleanText(payload.whatsapp, 60);
+  const lga = cleanText(payload.lga, 120);
+  const status = cleanText(payload.status, 80);
+  const statusOther = cleanText(payload.statusOther, 120);
+  const preference = cleanText(payload.preference, 260);
+  const skillOther = cleanText(payload.skillOther, 160);
+  const skills = Array.isArray(payload.skills)
+    ? payload.skills.filter((skill): skill is string => typeof skill === "string").map((skill) => cleanText(skill, 80))
+    : [];
+
+  const validVolunteer =
+    formType !== "volunteer" ||
+    (whatsapp.length > 0 &&
+      lga.length > 0 &&
+      volunteerStatusOptions.includes(status as (typeof volunteerStatusOptions)[number]) &&
+      (status !== "Other" || statusOther.length > 0) &&
+      volunteerPreferenceOptions.includes(preference as (typeof volunteerPreferenceOptions)[number]) &&
+      skills.length > 0 &&
+      skills.length <= volunteerSkillOptions.length &&
+      skills.every((skill) => volunteerSkillOptions.includes(skill as (typeof volunteerSkillOptions)[number])) &&
+      new Set(skills).size === skills.length &&
+      (!skills.includes("Other") || skillOther.length > 0));
+
+  if (!formType || !name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || (formType === "contact" && !message) || !validVolunteer) {
     return errorResponse("Please check the form fields and try again.", 400);
   }
 
@@ -190,6 +246,7 @@ export async function POST(request: Request) {
 
   const formLabel = formType === "volunteer" ? "Volunteer application" : "Contact message";
   const subjectLine = subject ? `${formLabel}: ${subject}` : formLabel;
+  const applicationSkills = skills.map((skill) => skill === "Other" ? `Other: ${skillOther}` : skill);
   const htmlContent = buildNotificationEmail({
     formLabel,
     name,
@@ -197,6 +254,13 @@ export async function POST(request: Request) {
     subject,
     message,
     newsletterOptIn,
+    volunteerDetails: formType === "volunteer" ? {
+      whatsapp,
+      lga,
+      status: status === "Other" ? `Other: ${statusOther}` : status,
+      preference,
+      skills: applicationSkills,
+    } : undefined,
   });
 
   try {

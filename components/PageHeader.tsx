@@ -7,12 +7,14 @@ export default function PageHeader({
   title,
   intro,
   action,
+  actionClassName = "",
   breadcrumbs,
 }: {
   eyebrow: string;
   title: string;
   intro?: string;
   action?: ReactNode;
+  actionClassName?: string;
   breadcrumbs?: Array<{label: string; href?: string}>;
 }) {
   return (
@@ -70,7 +72,11 @@ export default function PageHeader({
             </p>
           </Reveal>
         )}
-        {action && <Reveal delay={0.16}><div className="mt-7">{action}</div></Reveal>}
+        {action && (
+          <Reveal delay={0.16} className={actionClassName}>
+            <div className="mt-7">{action}</div>
+          </Reveal>
+        )}
       </div>
     </section>
   );
