@@ -250,10 +250,8 @@ export default function ContactForm({
             }
           >
             <legend className="text-sm font-medium text-ink">
-              What skills or areas of experience can you bring to the HLI team?{" "}
-              <span className="text-red-600" aria-hidden="true">
-                *
-              </span>
+              What skills or areas of experience can you bring to the HLI
+              team?{" "}
             </legend>
             <p className="mt-1 text-sm text-muted">Select all that apply.</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
