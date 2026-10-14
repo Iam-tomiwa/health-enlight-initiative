@@ -23,12 +23,12 @@ const ways = [
   {
     icon: "outreach",
     title: "Build leadership and advocacy experience",
-    body: "Take part in school health clubs, outreach, and community campaigns while developing your leadership and advocacy skills.",
+    body: "Gain leadership experience through health clubs and outreach.",
   },
   {
-    icon: "webinar",
+    icon: "award",
     title: "Earn certificates and recommendations",
-    body: "Consistent participation and strong performance on HLI projects can earn you certificates and recommendations.",
+    body: "Certificates and recommendations reflect your participation and performance.",
   },
 ];
 

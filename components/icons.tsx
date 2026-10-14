@@ -138,6 +138,13 @@ const programPaths: Record<string, ReactElement> = {
       <path d="M8 20h8M12 16v4M10 8.5l3 2-3 2v-4Z" />
     </>
   ),
+  award: (
+    <>
+      <circle cx="12" cy="8" r="5.5" />
+      <path d="m8.5 12.2-1 7.8 4.5-2.5 4.5 2.5-1-7.8" />
+      <path d="m9.7 8 1.5 1.5 3.1-3.1" />
+    </>
+  ),
   shield: (
     <>
       <path d="M12 3.5 5 6v5.5c0 4.3 3 7.4 7 8.9 4-1.5 7-4.6 7-8.9V6l-7-2.5Z" />
