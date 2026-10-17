@@ -275,6 +275,16 @@ export async function POST(request: Request) {
           ...(name.split(/\s+/).length > 1
             ? { LASTNAME: name.split(/\s+/).slice(1).join(" ") }
             : {}),
+          ...(formType === "volunteer"
+            ? {
+                HLI_WHATSAPP_NUMBER: whatsapp,
+                HLI_LGA: lga,
+                HLI_CURRENT_STATUS:
+                  status === "Other" ? `Other: ${statusOther}` : status,
+                HLI_VOLUNTEER_PREFERENCE: preference,
+                HLI_SKILLS: applicationSkills.join("; "),
+              }
+            : {}),
         },
         listIds,
         updateEnabled: true,
